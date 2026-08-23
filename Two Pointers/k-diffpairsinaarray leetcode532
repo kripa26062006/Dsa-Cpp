@@ -1,0 +1,43 @@
+class Solution {
+public:
+
+int Solution::findPairs(vector<int> &nums, int k) {
+    map<int, int> freq;
+    for (int num : nums) {
+        freq[num]++;
+    }
+    
+    int count = 0;
+    if (k == 0) {
+        for (auto& p : freq) {
+            int fq = p.second;
+            if (fq > 1) {
+                count += (fq * (fq - 1)) / 2;
+            }
+        }
+        return count;
+    }
+    vector<int> unique_elements;
+    for (auto& p : freq) {
+        unique_elements.push_back(p.first);
+    }
+    
+    int left = 0, right = 1;
+    while (right < unique_elements.size()) {
+        int diff = unique_elements[right] - unique_elements[left];
+        
+        if (diff == k) {
+            count++;
+            left++;
+            right++;
+        }
+        else if (diff < k) {
+            right++;
+        }
+        else {
+            left++;
+        }
+    }
+    
+    return count;
+}

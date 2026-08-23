@@ -1,0 +1,26 @@
+
+class Solution {
+public:
+    int nthMagicalNumber(int n, int a, int b) {
+       long long l = min (a,b);
+       long long h =(long long) min (a,b)*n;
+long long lcm = ((long long)a * b) / __gcd(a, b);
+long long ans =0;
+while(l<=h){
+  long long m =l+(h-l)/2;
+  long long count = m/a+m/b-m/lcm;
+  if (count ==n){
+   ans = m ;
+   h=m-1;
+}
+  else if (count<n){
+    l = m+1;
+}else {
+    h=m-1;
+}
+} 
+return ans %1000000007;
+}
+};
+  
+  

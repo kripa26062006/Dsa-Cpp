@@ -27,4 +27,4 @@ h=mid-1;
 }
 }
 return ans ;
-}s
+}
