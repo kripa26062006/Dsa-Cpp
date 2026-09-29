@@ -1,0 +1,67 @@
+
+
+int main(){
+    string a;
+    cin >> a;
+    int q;
+    cin >> q;
+    
+    set<int> onesSet;
+    
+    // Initialize: add all 1-based indices where a[i] == '1'
+    for(int i = 0; i < a.length(); i++){
+        if(a[i] == '1'){
+            onesSet.insert(i + 1);  // store 1-based index
+        }
+    }
+    
+    // Process queries
+    while(q--){
+        int type, x;
+        cin >> type >> x;
+        
+        if(type == 1){
+            // Flip at index x (convert to 0-based)
+            if(a[x - 1] == '1'){
+                a[x - 1] = '0';
+                onesSet.erase(x);
+            } else {
+                a[x - 1] = '1';
+                onesSet.insert(x);
+            }
+        } else {
+            // Find nearest 1 to index x
+            if(onesSet.empty()){
+                cout << -1 << "\n";
+                continue;
+            }
+            
+            auto it = onesSet.lower_bound(x);
+            int ans = -1;
+            int minDist = INT_MAX;
+            
+            // Check element >= x
+            if(it != onesSet.end()){
+                int dist = abs(*it - x);
+                if(dist < minDist || (dist == minDist && *it < ans)){
+                    minDist = dist;
+                    ans = *it;
+                }
+            }
+            
+            // Check element < x (one before lower_bound)
+            if(it != onesSet.begin()){
+                --it;
+                int dist = abs(*it - x);
+                if(dist < minDist || (dist == minDist && *it < ans)){
+                    minDist = dist;
+                    ans = *it;
+                }
+            }
+            
+            cout << ans << "\n";
+        }
+    }
+    
+    return 0;
+}
